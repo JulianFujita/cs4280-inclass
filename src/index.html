@@ -20,9 +20,43 @@
 
   <main>
     <article>
-      <svg width="300" height="400" style="background: rgb(221, 166, 166);">
-        <circle cx="50" cy="75" r="100" />
-        <rect x="200" y="300" width="30" height="50" fill="blue" stroke="white" stroke-width="5"/>
+      <!-- SVG PRACTICE -->
+      <svg width="500" height="600" style="background: rgb(221, 166, 166);">
+
+        Your browser does not support SVG
+
+        <g transform="rotate(-45, 0, 0)">
+          <rect x="200" y="300" width="130" height="150"
+          style="fill: blue; stroke: white; stroke-width: 5; stroke-dasharray: 15 5;"/>
+        
+             
+          <circle cx="200" cy="300" r="100"
+          style="fill: red; stroke: blue; stroke-width: 3; fill-opacity: .5;"/>  
+        </g>
+
+        <!-- <ellipse cx="250" cy="450" rx="150" ry="100"
+        style="fill: none; stroke:greenyellow"/> -->
+
+        <line x1=0 y1=0 x2=500 y2=600 style="stroke:maroon"/>
+
+        <!-- Path Demo -->
+        <path d="M100,200
+                L200,400
+                L100,400
+                v-50
+                H30
+                Z
+          " style="stroke: red; stroke-width: 3; fill: none"/>
+
+          <!-- Cruves Demo -->
+          <circle cx="490" cy="500" r="3"
+          style="fill: blue;"/>  
+          <circle cx="50" cy="500" r="3"
+          style="fill: blue;"/> 
+          <path d="M100,450 C50,500 490,500 450,450
+          " style="stroke: red; stroke-width: 3; fill: none"/>
+
+
       </svg>
       <!-- <canvas id="webgl-scene">
         Your browser does not support HTML5.
