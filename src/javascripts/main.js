@@ -10,11 +10,26 @@ document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 //Then: comes everything else
 // TODO
 
+// Data Driven Document 3 d
 import * as d3 from 'd3' 
 
+// Function instaed of text 
+let myData = [100, 2, 3, 4]
 
+d3.select('article').data(myData).text(function(d){
+    return 'Hello World ' + d
+})
 
+// <svg width="500" height="600" style="background: rgb(221, 166, 166);">
+let svg = d3.select('article').append('svg').
+    attr('width', 500).attr('height', 600).
+    style('background', 'rgb(221, 166, 166)')
 
+// <rect x="200" y="300" width="130" height="150"
+// style="fill: blue; stroke: white; stroke-width: 5; stroke-dasharray: 15 5;"/>
+let rect = svg.append('rect').attr('x', 200).attr('y', 300).attr('width', 130).attr('height', 150).
+    style('fill', 'blue').style('stroke', 'white').
+    style('stroke-width', 5).style('stroke-dasharray', '15 5')
 
 
 
