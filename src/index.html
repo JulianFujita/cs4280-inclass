@@ -25,14 +25,14 @@
 
         Your browser does not support SVG
 
-        <g transform="rotate(-45, 0, 0)">
+        <!-- <g transform="rotate(-45, 0, 0)">
           <rect x="200" y="300" width="130" height="150"
           style="fill: blue; stroke: white; stroke-width: 5; stroke-dasharray: 15 5;"/>
         
              
           <circle cx="200" cy="300" r="100"
           style="fill: red; stroke: blue; stroke-width: 3; fill-opacity: .5;"/>  
-        </g>
+        </g> -->
 
         <!-- <ellipse cx="250" cy="450" rx="150" ry="100"
         style="fill: none; stroke:greenyellow"/> -->
@@ -40,23 +40,68 @@
         <line x1=0 y1=0 x2=500 y2=600 style="stroke:maroon"/>
 
         <!-- Path Demo -->
-        <path d="M100,200
+        <!-- <path d="M100,200
                 L200,400
                 L100,400
                 v-50
                 H30
                 Z
-          " style="stroke: red; stroke-width: 3; fill: none"/>
+          " style="stroke: red; stroke-width: 3; fill: none"/> -->
 
           <!-- Cruves Demo -->
-          <circle cx="490" cy="500" r="3"
+          <!-- <circle cx="490" cy="500" r="3"
           style="fill: blue;"/>  
           <circle cx="50" cy="500" r="3"
           style="fill: blue;"/> 
           <path d="M100,450 C50,500 490,500 450,450
+          " style="stroke: red; stroke-width: 3; fill: none"/> -->
+
+          <!-- Transformations -->
+          <path d="M100,200L200,400L100,400v-50H30Z"
+          style="stroke: red; stroke-width: 3; fill: none"
+          transform="scale(-1, 1, 175, 275)"/>
+
+          <rect x="100" y="350" width="130" height="150"
+          style="fill: blue; stroke: white; stroke-width: 5; stroke-dasharray: 15 5;"
+          transform="skewY(30)">
+
+            <animateTransform 
+              attributeName="transform" 
+              begin="0s"
+              duration="10s"
+              type="skewY"
+              from="0"
+              to="30" 
+              repeatCount="indefinite">
+            </animateTransform>
+
+          </rect>
+
+          <circle cx="300" cy="400" r="100"
+          style="fill: red; stroke: blue; stroke-width: 3; fill-opacity: .5;">
+          
+            <animate
+              attributeName="r"
+              from="20"
+              to="120"
+              begin="0s"
+              duration="10s"
+              repeatCount="indefinite"
+            />
+
+          </circle>  
+
+          <circle cx="90" cy="500" r="3" style="fill: blue;"/> 
+          <circle cx="400" cy="400" r="3" style="fill: blue;"/>  
+          <path d="M100,450 C90,500 400,400 450,450
           " style="stroke: red; stroke-width: 3; fill: none"/>
 
-
+          <circle cx="0" cy="0" r="7" style="fill: maroon;">
+            <animateMotion
+              path="M100,450 C90,500 400,400 450,450"
+              begin="0s" duration="8s" repeatCount="indefinite">
+            </animateMotion>
+          </circle> 
       </svg>
       <!-- <canvas id="webgl-scene">
         Your browser does not support HTML5.
