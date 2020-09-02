@@ -7,108 +7,86 @@ require.context('../stylesheets/', true, /\.(css|scss)$/i)
 let std_name = "Julian Dean"
 document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 
-//Then: comes everything else
-// TODO
+// SEPTEMBER 2 IN-CLASS D3 CHARTS AND GRAPHS
+import * as d3 from 'd3'
 
-// Data Driven Document 3 d
-import * as d3 from 'd3' 
+// Create Data
+let courses = [
+    {name: 'CS1010', students: 78},
+    {name: 'CS1030', students: 69},
+    {name: 'CS1400', students: 88},
+    {name: 'CS1410', students: 73},
+    {name: 'CS2350', students: 55},
+    {name: 'CS2420', students: 46}
+]
 
-// Function instaed of text 
-let myData = [100, 2, 3, 4]
+let margin = {
+    top: 30,
+    right: 30,
+    bottom: 30,
+    left: 30
+}
+let width = 600 - (margin.left + margin.right)
+let height = 600 - (margin.top + margin.bottom)
 
-d3.select('article').data(myData).text(function(d){
-    return 'Hello World ' + d
+// Create SVG Image
+let svg = d3.select('main')
+    .append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .style('background', 'lightgray')
+
+// Scaling for axes
+let x = d3.scaleBand()
+    .domain(courses.map(c => c.name))
+    .range([margin.left, width - margin.right])
+    .padding(.1)
+
+let y = d3.scaleLinear()
+    .domain([0, d3.max(courses, c => c.students)])
+    .range([height - margin.bottom, margin.top])
+    .nice()
+
+// Display Axes
+svg.append('g')
+    .call(d3.axisBottom(x))
+    .attr('transform', `translate(0, ${height - margin.bottom})`)
+svg.append('g')
+    .call(d3.axisLeft(y))
+    .attr('transform', `translate(${margin.left}, 0)`)
+
+// Plotting the chart with rectangles
+let bg = svg.append('g')
+
+bg.selectAll('rect')
+    .data(courses)
+    .enter()
+    .append('rect')
+    .attr('x', c => x(c.name))
+    .attr('y', height - margin.bottom)
+    .attr('width', x.bandwidth())
+    .attr('height', 0)
+    .style('fill', 'steelblue')
+    .style('stroke', 'black')
+    .style('stroke-width', 2)
+    .transition().duration(2000).attr('y', c => y(c.students))
+    .attr('height', c => y(0) - y(c.students))
+
+bg.selectAll('text')
+    .data(courses)
+    .enter()
+    .append('text')
+    .attr('x', c => x(c.name) + x.bandwidth()/2)
+    .attr('y', c => y(c.students) - 5)
+    .attr('text-anchor', 'middle')
+    .text(c => c.students)
+    .attr('font-size', 10)
+
+// Interactions
+d3.selectAll('rect').on('mouseover', function(){
+    d3.select(this).style('opacity', 0.5)
+})
+.on('mouseout', function(){
+    d3.select(this).style('opacity', 1)
 })
 
-// <svg width="500" height="600" style="background: rgb(221, 166, 166);">
-let svg = d3.select('article').append('svg').
-    attr('width', 500).attr('height', 600).
-    style('background', 'rgb(221, 166, 166)')
-
-// <rect x="200" y="300" width="130" height="150"
-// style="fill: blue; stroke: white; stroke-width: 5; stroke-dasharray: 15 5;"/>
-let rect = svg.append('rect').attr('x', 200).attr('y', 300).attr('width', 130).attr('height', 150).
-    style('fill', 'blue').style('stroke', 'white').
-    style('stroke-width', 5).style('stroke-dasharray', '15 5')
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Variables
-// let x = 10
-// const PI = 3.14
-// let ch = "A"
-// let choice = 'Ok'
-// let description = `This is a
-// multi-line string`
-
-
-// Printing to console
-// console.log(x)
-// console.log(PI)
-// console.log(description)
-
-// let fn = 'John'
-// let ln = 'Doe'
-
-// // String interpolation
-// let name = `My name is ${fn} ${ln}.`
-// console.log(name)
-
-// // Arrays (Are both stacks and queues)
-// let numbers = [2,4,5,12,34,67,9,18]
-// console.log(`Length: ${numbers.length}`)
-// numbers.push(22)
-// numbers.unshift(11)
-
-// // Loops
-// // Use map to avoid loops
-// console.log(numbers.map(
-//     (x) => x * 3
-// ))
-// // Use if you require index
-// for(let i = 0; i < numbers.length; i++){
-//     console.log(numbers[i]*3)
-// }
-// // No index
-// for(let n of numbers){
-//     console.log(n * 3)
-// }
-// // Index
-// for(let i in numbers){
-//     console.log(i)
-// }
-
-// // Objects
-// let self = {
-//     fn: 'Julian',
-//     ln: 'Dean',
-//     school: 'WSU',
-//     'favorite sport': 'soccer'
-// }
-// for(let p in self){
-//     console.log(`${p}: ${self[p]}`)
-// }
-
-// // Functions
-// function getMax(x, y){
-//     return Math.max(x, y)
-// }
-// console.log(`Max is ${getMax(14, 11)}`)
-// // gMax is a pointer to the function. You can change the name of the function
-// const gMax = function(x, y){
-//     return Math.max(x, y)
-// }
-// console.log(`Max is ${gMax(14, 11)}`)
-// // Arrow function
-// const gm = (x, y) => Math.max(x, y)
-// console.log(`Max is ${gm(14, 11)}`)
