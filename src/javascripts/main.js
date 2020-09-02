@@ -89,4 +89,3 @@ d3.selectAll('rect').on('mouseover', function(){
 .on('mouseout', function(){
     d3.select(this).style('opacity', 1)
 })
-
