@@ -7,12 +7,6 @@ require.context('../stylesheets/', true, /\.(css|scss)$/i)
 let std_name = "Julian Dean"
 document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 
-// ACTIVITY 03
-const canvas = document.querySelector('canvas')
-canvas.width = canvas.getClientRects()[0].width;
-canvas.height = canvas.getClientRects()[0].height;
-const gl = canvas.getContext('webgl')
+import { scribble, sierpinski } from './week05'
 
-if(!gl){
-    throw new Error('WebGL Not Supported')
-}
+sierpinski()
