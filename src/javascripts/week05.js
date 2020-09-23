@@ -113,6 +113,18 @@ export function displayMultiPogram() {
         requestAnimationFrame(animate)
     }
     animate()
+
+    let gui = new dat.GUI()
+    document.querySelector('aside').appendChild(gui.domElement)
+    for(let o of objects){
+        let f = gui.addFolder(o.name)
+        f.addColor(o.controls, 'color')
+        f.add(o.controls, 'speed').min(0.001).max(0.1)
+        f.add(o.controls, 'theta').min(0.0).max(2 * Math.PI)
+        f.add(o.controls, 'direction', {clockwise: 1, counterclockwise: -1})
+
+        f.open()
+    }
 }
 
 // Sierpinski
