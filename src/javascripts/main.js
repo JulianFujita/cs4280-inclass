@@ -7,6 +7,6 @@ require.context('../stylesheets/', true, /\.(css|scss)$/i)
 let std_name = "Julian Dean"
 document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 
-import { scribble, sierpinski } from './week05'
+import { scribble, sierpinski, displayMultiPogram} from './week05'
 
-sierpinski()
+displayMultiPogram()
