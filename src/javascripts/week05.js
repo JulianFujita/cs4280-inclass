@@ -17,6 +17,7 @@ export function displayMultiPogram() {
             gl_Position.x = coordinates.x * cos(theta);
             gl_Position.y = coordinates.y * sin(theta);
             gl_Position.z = coordinates.z;
+            gl_Position.w = 1.0;
             vColor = vec4(color, 1.0);
         }
     `
