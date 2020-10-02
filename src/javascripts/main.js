@@ -8,6 +8,6 @@ let std_name = "Julian Dean"
 document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 
 import { scribble, sierpinski, displayMultiPogram } from './week05'
-import { displayCubeIndexed } from './week06'
+import { displayCube } from './week06'
 
-displayCubeIndexed()
+displayCube()

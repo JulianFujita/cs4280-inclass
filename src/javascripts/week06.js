@@ -93,14 +93,14 @@ export function displayCubeIndexed() {
 
         let s = new THREE.Matrix4().makeScale(0.5, 1.5, -.5)
         let t = new THREE.Matrix4().makeTranslation(-.2, .3, .1)
-        
+
         let rx = new THREE.Matrix4().makeRotationX(theta[0] * Math.PI / 180)
         let ry = new THREE.Matrix4().makeRotationY(theta[1] * Math.PI / 180)
         let rz = new THREE.Matrix4().makeRotationZ(theta[2] * Math.PI / 180)
 
         let ryz = new THREE.Matrix4().multiplyMatrices(ry, rz)
         let rxyz = new THREE.Matrix4().multiplyMatrices(rx, ryz)
-        
+
         let rs = new THREE.Matrix4().multiplyMatrices(rxyz, s)
         let trs = new THREE.Matrix4().multiplyMatrices(t, rs)
 
@@ -169,6 +169,15 @@ class Cube {
         this.indices.push(a, b, c)
         this.indices.push(a, c, d)
     }
+
+    fixColors(){
+        this.c_out = []
+        for (let c of this.colors) {
+            for (let i = 0; i < 6; i++) {
+                this.c_out.push(c[0], c[1], c[2])
+            }
+        }
+    }
 }
 export function displayCube() {
     const vs_script = `#version 300 es
@@ -212,12 +221,19 @@ export function displayCube() {
 
     let controls = {
         axis: 1,
-        theta: 30
+        theta: 30,
+        front: '#FF0000',
+        back: '#00FF00',
+        top: '#0000FF',
+        bottom: '#FFFF00',
+        left: '#FF00FF',
+        right: '#00FFFF'
+        
     }
 
     let theta = [0, 0, 0]
     function animate() {
-        theta[controls.axis] += 1
+        theta[controls.axis] += 0.5
 
         let rx = new THREE.Matrix4().makeRotationX(theta[0] * Math.PI / 180)
         let ry = new THREE.Matrix4().makeRotationY(theta[1] * Math.PI / 180)
@@ -232,6 +248,8 @@ export function displayCube() {
         gl.drawArrays(gl.TRIANGLES, 0, cube.v_out.length / 3)
 
         requestAnimationFrame(animate)
+
+        setNewColor()
     }
 
     animate()
@@ -239,6 +257,40 @@ export function displayCube() {
     let gui = new dat.GUI()
     document.querySelector('aside').appendChild(gui.domElement)
     gui.add(controls, 'axis', { x: 0, y: 1, z: 2 })
+    let sides = gui.addFolder('sides')
+    sides.addColor(controls, 'front')
+    sides.addColor(controls, 'back')
+    sides.addColor(controls, 'top')
+    sides.addColor(controls, 'bottom')
+    sides.addColor(controls, 'left')
+    sides.addColor(controls, 'right')
+    sides.open()
+
+    // Function for setting color of cube
+    function setNewColor(){
+        let newColors = cube.colors 
+        
+        newColors[0] = WebGLHelper.getColorFromHex(controls.front)    
+        newColors[1] = WebGLHelper.getColorFromHex(controls.back)  
+        newColors[2] = WebGLHelper.getColorFromHex(controls.top)  
+        newColors[3] = WebGLHelper.getColorFromHex(controls.bottom)  
+        newColors[4] = WebGLHelper.getColorFromHex(controls.left)  
+        newColors[5] = WebGLHelper.getColorFromHex(controls.right)  
+
+        cube.colors = newColors
+        cube.fixColors()
+
+        WebGLHelper.initBuffers(gl, program, [{
+            name: 'coordinates',
+            size: 3,
+            data: cube.v_out
+        }, {
+            name: 'color',
+            size: 3,
+            data: cube.c_out
+        }])
+    }
+    
 }
 
 class Pyramid {
@@ -286,7 +338,7 @@ class Pyramid {
         this.indices.push(a, b, c)
         this.indices.push(c, a, d)
     }
-    face(a, b, c){
+    face(a, b, c) {
         this.indices.push(a, b, c)
     }
 }
@@ -366,7 +418,7 @@ class TriPyramid {
         this.vertices = [
             0, 0, .5,
             .5, 0, .25,
-            0, 0, 0, 
+            0, 0, 0,
             .25, .5, .25
         ]
 
@@ -398,7 +450,7 @@ class TriPyramid {
             }
         }
     }
-    face(a, b, c){
+    face(a, b, c) {
         this.indices.push(a, b, c)
     }
 }
