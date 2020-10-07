@@ -9,5 +9,6 @@ document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 
 import { scribble, sierpinski, displayMultiPogram } from './week05'
 import { displayCube } from './week07'
+import { displayHalfSphere } from './week07' 
 
-displayCube()
+displayHalfSphere()
