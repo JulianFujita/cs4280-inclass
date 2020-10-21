@@ -9,7 +9,8 @@ document.querySelector('#std_name').innerHTML = `<strong>${std_name}</strong>`
 
 import { scribble, sierpinski, displayMultiPogram } from './week05'
 import { displayCube } from './week07'
-import { displayHalfSphere } from './week07' 
+import { displayHalfSphere } from './week07'
 import { displayThreeHelloWorld, displayAnimatedCube, displayCubeScene } from './week08'
+import { displayLightedScene } from './week09'
 
 displayCubeScene()
