@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export function displayThreeHelloWorld() {
     let canvas = document.querySelector('#webgl-scene')
@@ -15,6 +16,7 @@ export function displayThreeHelloWorld() {
     // Shows x, y, and z axis for debugging
     let axes = new THREE.AxesHelper(10)
     scene.add(axes)
+
 
     //----------------------------------------------------------------------------
 
@@ -182,15 +184,32 @@ export function displayCubeScene() {
     let axes = new THREE.AxesHelper(10)
     scene.add(axes)
 
+    // Orbit controls
+    let cameraControls = new OrbitControls(camera, renderer.domElement)
+    cameraControls.addEventListener("change", function () {
+        renderer.render(scene, camera)
+    })
+
     //-------------------------------------------------------------------
 
     let geometry2 = new THREE.SphereBufferGeometry(10, 10, 10)
-    let material2 = new THREE.MeshBasicMaterial()
-    let s = new THREE.Mesh(geometry2, material2) 
+    let material2 = new THREE.MeshPhongMaterial()
+    let s = new THREE.Mesh(geometry2, material2)
 
     let geometry = new THREE.BoxBufferGeometry(15, 15, 15)
-    let material = new THREE.MeshBasicMaterial()
+    let material = new THREE.MeshPhongMaterial()
     let c = new THREE.Mesh(geometry, material)
+
+    // Ligth sources
+    let ambientLight = new THREE.AmbientLight(0x333333)
+    ambientLight.intensity = 3
+    scene.add(ambientLight)
+
+    let pointLight = new THREE.PointLight(0x333333)
+    pointLight.intensity = 3
+    pointLight.position.set(50, 200, 200)
+    scene.add(pointLight)
+
 
     // A 1000 cubes
     let cube_number = 10
@@ -200,7 +219,7 @@ export function displayCubeScene() {
             for (let k = 0; k < cube_number; k++) {
                 if (Math.random() > 0.2) {
                     let box = null;
-                    if(Math.random() > 0.5)
+                    if (Math.random() > 0.5)
                         box = c.clone()
                     else
                         box = s.clone()
@@ -209,8 +228,8 @@ export function displayCubeScene() {
                     box.position.y = j * 25
                     box.position.z = k * 25
 
-                    box.material = new THREE.MeshBasicMaterial()
-                    box.material.color = new THREE.Color(Math.random(), Math.random(), Math.random()+0.5)
+                    box.material = new THREE.MeshPhongMaterial()
+                    box.material.color = new THREE.Color(Math.random(), Math.random(), Math.random())
 
                     scene.add(box)
                 }
