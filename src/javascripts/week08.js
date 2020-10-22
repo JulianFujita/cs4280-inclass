@@ -202,12 +202,12 @@ export function displayCubeScene() {
 
     // Ligth sources
     let ambientLight = new THREE.AmbientLight(0x333333)
-    ambientLight.intensity = 3
+    ambientLight.intensity = 2
     scene.add(ambientLight)
 
     let pointLight = new THREE.PointLight(0x333333)
-    pointLight.intensity = 3
-    pointLight.position.set(50, 200, 200)
+    pointLight.intensity = 5
+    pointLight.position.set(50, 200, 300)
     scene.add(pointLight)
 
 
