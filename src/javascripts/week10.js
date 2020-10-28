@@ -1,6 +1,69 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { sinusoidal, checkerboard, somePattern } from './textures'
+import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
+
+export function displayCity() {
+    let canvas = document.querySelector('#webgl-scene')
+    let scene = new THREE.Scene()
+    let renderer = new THREE.WebGLRenderer({ canvas })
+    let camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientWidth, .1, 2000)
+
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight)
+    renderer.setClearColor(0xEEEEEE)
+
+    let axes = new THREE.AxesHelper(10)
+    scene.add(axes)
+
+    // Load mtl and obj---------------------------------------------------------------------------------------
+    let mtlLoader = new MTLLoader()
+    let objLoader = new OBJLoader()
+
+    mtlLoader.load("./models/city.mtl", function (material) {
+        material.preload()
+        objLoader.setMaterials(material)
+        objLoader.load("/models/city.obj", function (object) {
+            for (let o of object.children) {
+                o.material = new THREE.MeshNormalMaterial()
+            }
+            scene.add(object)
+            renderer.render(scene, camera)
+        })
+    })
+    //---------------------------------------------------------------------------------------------------------
+
+
+    let cameraControls = new OrbitControls(camera, renderer.domElement)
+    cameraControls.addEventListener("change", function () {
+        renderer.render(scene, camera)
+    })
+
+    // Lights
+    let ambientLight = new THREE.AmbientLight(0x333333)
+    let directionalLight = new THREE.DirectionalLight(0x7777777)
+    let pointLight = new THREE.PointLight(0x999999)
+    scene.add(ambientLight)
+    scene.add(directionalLight)
+    scene.add(pointLight)
+
+    let controls = {
+
+    }
+
+    camera.position.set(-200, 400, -200)
+
+    function animate() {
+        camera.lookAt(scene.position)
+        renderer.render(scene, camera)
+        cameraControls.update()
+    }
+
+    animate()
+
+    let gui = new dat.GUI()
+    document.querySelector('aside').appendChild(gui.domElement)
+}
 
 export function displayTexturedScene() {
     let canvas = document.querySelector('#webgl-scene')
@@ -39,7 +102,13 @@ export function displayTexturedScene() {
         },
         floor: texLoader.load('./images/floor.jpg'), function() {
             renderer.render(scene, camera)
-        }
+        },
+        waldo: texLoader.load('./images/waldo.png'), function() {
+            renderer.render(scene, camera)
+        },
+        sinsoidal: sinusoidal(256),
+        checkerboard: checkerboard(256, 256, 16, 16),
+        somePattern: somePattern(256, 256)
     }
 
     // Crate
@@ -59,7 +128,7 @@ export function displayTexturedScene() {
     geometry = new THREE.PlaneGeometry(500, 300)
     let plane = new THREE.Mesh(geometry)
     plane.rotateX(Math.PI / 2)
-    plane.materialParams = {side: THREE.DoubleSide}
+    plane.materialParams = { side: THREE.DoubleSide }
     plane.name = 'floor'
 
     plane.material = new THREE.MeshStandardMaterial(plane.materialParams)
@@ -87,6 +156,16 @@ export function displayTexturedScene() {
     earth.material = new THREE.MeshStandardMaterial()
     earth.material.map = textures[earth.name]
 
+    // Waldo cube
+    geometry = new THREE.BoxGeometry(100, 100, 100)
+    cube = new THREE.Mesh(geometry)
+    cube.position.set(180, 50, 80)
+    cube.name = 'checkerboard'
+    scene.add(cube)
+
+    cube.material = new THREE.MeshStandardMaterial()
+    cube.material.map = textures[cube.name]
+    cube.material.normalMap = textures['sinsoidal']
 
 
     let cameraControls = new OrbitControls(camera, renderer.domElement)
@@ -103,7 +182,7 @@ export function displayTexturedScene() {
     scene.add(pointLight)
 
     let controls = {
-       
+
     }
 
     camera.position.set(-200, 400, -200)

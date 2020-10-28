@@ -1,6 +1,7 @@
 # compiled output
 dist/*
 !dist/.keep
+!dist/models
 /tmp
 /out-tsc
 
