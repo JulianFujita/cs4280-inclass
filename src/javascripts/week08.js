@@ -192,7 +192,7 @@ export function displayCubeScene() {
 
     //-------------------------------------------------------------------
 
-    let geometry2 = new THREE.SphereBufferGeometry(10, 10, 10)
+    let geometry2 = new THREE.SphereBufferGeometry(10, 30, 30)
     let material2 = new THREE.MeshPhongMaterial()
     let s = new THREE.Mesh(geometry2, material2)
 
@@ -212,6 +212,21 @@ export function displayCubeScene() {
 
 
     // A 1000 cubes
+    let textureLoader = new THREE.TextureLoader()
+    let textures = {
+        concrete: textureLoader.load('./images/concrete.jpg', function () {
+            renderer.render(scene, camera)
+        }),
+        sky: textureLoader.load('./images/sky.jpg', function () {
+            renderer.render(scene, camera)
+        }),
+        straw: textureLoader.load('./images/straw.jpg', function () {
+            renderer.render(scene, camera)
+        }),
+        fabric: textureLoader.load('./images/fabric.jpg', function () {
+            renderer.render(scene, camera)
+        })
+    }
     let cube_number = 10
 
     for (let i = 0; i < cube_number; i++) {
@@ -219,17 +234,30 @@ export function displayCubeScene() {
             for (let k = 0; k < cube_number; k++) {
                 if (Math.random() > 0.2) {
                     let box = null;
-                    if (Math.random() > 0.5)
+                    if (Math.random() > 0.5) {
                         box = c.clone()
-                    else
+
+                        box.material = new THREE.MeshPhongMaterial()
+                        //box.material.color = new THREE.Color(Math.random(), Math.random(), Math.random())
+                        if(Math.random() > 0.5)
+                            box.material.map = textures['concrete']
+                        else
+                            box.material.map = textures['straw']
+                    }
+                    else {
                         box = s.clone()
+
+                        box.material = new THREE.MeshPhongMaterial()
+                        //box.material.color = new THREE.Color(Math.random(), Math.random(), Math.random())
+                        if(Math.random() > 0.5)
+                            box.material.map = textures['sky']
+                        else
+                            box.material.map = textures['fabric']
+                    }
 
                     box.position.x = i * 25
                     box.position.y = j * 25
                     box.position.z = k * 25
-
-                    box.material = new THREE.MeshPhongMaterial()
-                    box.material.color = new THREE.Color(Math.random(), Math.random(), Math.random())
 
                     scene.add(box)
                 }
