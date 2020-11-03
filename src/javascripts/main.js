@@ -12,6 +12,6 @@ import { displayCube } from './week07'
 import { displayHalfSphere } from './week07'
 import { displayThreeHelloWorld, displayAnimatedCube, displayCubeScene } from './week08'
 import { displayLightedScene } from './week09'
-import { displayTexturedScene, displayCity} from './week10'
+import { displayTexturedScene, displayCity} from './week11'
 
 displayCity()
