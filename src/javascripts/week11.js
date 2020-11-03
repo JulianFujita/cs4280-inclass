@@ -31,7 +31,7 @@ export function displayCity() {
                 o.castShadow = true
                 o.receiveShadow = true
 
-                scene.add(o)
+                //scene.add(o)
             }
             scene.add(object)
             renderer.render(scene, camera)
@@ -63,15 +63,18 @@ export function displayCity() {
     }
 
     // Lights
+    let spotLight = new THREE.SpotLight(0xffffff)
+    spotLight.position.set(0, 100, 0)
     let ambientLight = new THREE.AmbientLight(0x333333)
     let directionalLight = new THREE.DirectionalLight(0x7777777)
     let pointLight = new THREE.PointLight(0x999999)
     pointLight.position.set(0, 300, 0)
     pointLight.castShadow = true
 
+    scene.add(spotLight)
     scene.add(ambientLight)
     scene.add(directionalLight)
-    scene.add(pointLight)
+    // scene.add(pointLight)
 
     let controls = {
 
